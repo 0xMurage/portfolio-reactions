@@ -1,0 +1,16 @@
+__pycache__
+.env
+.env-example
+venv
+
+*.pyc
+*.pyo
+*.pyd
+
+.coverage
+.coverage.*
+.cache
+
+.git
+.pytest_cache
+readme.md
