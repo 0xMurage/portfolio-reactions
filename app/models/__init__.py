@@ -30,7 +30,7 @@ class Model(Base):
                 mapped_values[field[0]] = field[1]
 
         with Session.begin() as session:
-            return session.query(self.__class__) \
+            return session.query(type(self)) \
                 .filter_by(**filter_by) \
                 .update(mapped_values)
 
