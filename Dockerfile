@@ -12,4 +12,4 @@ RUN apk update\
 
 COPY . .
 
-CMD['gunicorn']
+CMD gunicorn

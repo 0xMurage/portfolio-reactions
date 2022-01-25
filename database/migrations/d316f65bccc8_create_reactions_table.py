@@ -25,8 +25,8 @@ def upgrade():
                     Column('reaction', SmallInteger, nullable=False, server_default=text('1')),
                     Column('created_at', TIMESTAMP, nullable=False, server_default=text('now()')),
                     Column('deleted_at', TIMESTAMP, nullable=True),
-                    UniqueConstraint()
-             )
+                    UniqueConstraint('device_id', 'project_id', 'deleted_at','reaction',name='re')
+                    )
 
 
 def downgrade():
