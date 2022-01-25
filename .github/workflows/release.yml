@@ -40,6 +40,11 @@ jobs:
           domain="${{secrets.DOCKER_USERNAME}}"
           name="${{github.event.repository.name}}"
           version="${{steps.srelease.outputs.new_release_version}}"
+          
+          if [ ${{steps.srelease.outputs.new_release_published}} = true ]; then
+            version="${{steps.srelease.outputs.last_release_version}}"
+          fi
+          
           TAG="${domain}/${name}:${version}"
           echo ::set-output name=tag::${TAG}
           echo "::add-mask::${TAG}"
@@ -51,6 +56,7 @@ jobs:
         with:
           push: true
           tags: ${{steps.docker_tag.outputs.tag}}
+        if: ${{steps.srelease.outputs.new_release_published}} #only if we have a new release
 
       - name: Create ansible temp env config directory
         run: sudo mkdir -p /home/ansible-temp
@@ -67,7 +73,6 @@ jobs:
             ${{secrets.MAIN_SERVER}}
           options: |
             -u  ${{secrets.SSH_USER}}
-            -e  "image_digest=${{steps.docker_build.outputs.digest}}"
             -e  "image_tag=${{steps.docker_tag.outputs.tag}}"
             -e  "remote_path=${{secrets.REMOTE_WORKSPACE}}"
             -e  "local_path=${{github.workspace}}"
