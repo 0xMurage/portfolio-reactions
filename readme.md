@@ -8,8 +8,8 @@
 - Docker cli
 - MySQL or MariaDB
 #### Steps
-- Clone the repo `git clone https://github.com/mimidotsuser/portfolio-reactions.git``
-- Change directory ``cd portfolio-reactions`
+- Clone the repo `git clone https://github.com/mimidotsuser/portfolio-reactions.git`
+- Change directory `cd portfolio-reactions`
 - Copy and rename `.env-example` to `.env`.
 - Setup MySQL/MariaDB database
 - Update the `.env` config values especially the database config
