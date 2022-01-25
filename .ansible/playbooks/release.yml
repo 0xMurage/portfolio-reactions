@@ -1,0 +1,84 @@
+---
+- name: Deploy docker container
+  become: false
+  gather_facts: no
+  hosts: all
+
+  tasks:
+    - name: Generate timestamp for deployment use
+      ansible.builtin.shell:
+        cmd: echo $(date +%s)
+      register: global_timestamp
+
+    #create current deployment folder
+    - name: Create project deployment directory
+      ansible.builtin.file:
+        path: "{{remote_path}}/{{global_timestamp.stdout}}"
+        state: directory
+        mode: '0755'
+        follow: false
+        owner: "{{remote_files_owner_user}}"
+        group: "{{remote_files_owner_group}}"
+      register: project_remote
+
+    #upload the docker compose file
+    - name: "Upload docker compose file"
+      ansible.builtin.lineinfile:
+        line: "{{lookup('file',local_path+'/docker-compose.yml')}}"
+        path: "{{project_remote.path}}/docker-compose.yml"
+        state: present
+        create: yes
+        mode: 0644
+        regexp: '^%version'
+      no_log: True
+
+    #Upload .env
+    - name: "Decrypt and upload environment config"
+      ansible.builtin.lineinfile:
+        line: "{{lookup('file',local_path+'/.env-enc')}}"
+        path: "{{project_remote.path}}/.env"
+        state: present
+        create: yes
+        mode: 0644
+        regexp: '^%DB_DATABASE='
+      no_log: True
+
+    - name: "Pull new docker image"
+      ansible.builtin.shell:
+        cmd: "docker pull {{image_tag}}"
+
+    # Stop any running docker services if available
+    - name: "Check if already running"
+      ansible.builtin.stat:
+        path: "{{remote_path}}/current"
+      register: project_current
+
+    - name: "Stop docker services if already running "
+      when: project_current.stat.exists
+      ansible.builtin.shell:
+        cmd: docker-compose down
+      args:
+        chdir: "{{remote_path}}/current"
+
+
+    #Set uploaded version as current
+    - name: "Link recent version to current folder"
+      ansible.builtin.file:
+        src: "{{project_remote.path}}/"
+        dest: "{{remote_path}}/current"
+        state: link
+        force: yes
+
+    # Start docker services on current folder
+    - name: "Start project docker services"
+      ansible.builtin.shell:
+        cmd: docker-compose -f docker-compose.yml up -d
+      args:
+        chdir: "{{remote_path}}/current"
+
+    # post cleanup
+    - name: "Clean up old deployment versions "
+      ansible.builtin.shell:
+        cmd: "find -maxdepth 1 -mindepth 1 -type d |sort -n -r|tail -n +{{min|default('2')}} | xargs rm -rf"
+      args:
+        chdir: "{{remote_path}}"

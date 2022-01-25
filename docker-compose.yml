@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  app:
+    image: "${image?err}"
+    restart: on-failure
+    ports:
+      - "${FLASK_PORT?err}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - portfolio
+
+networks:
+  portfolio:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.32/29
