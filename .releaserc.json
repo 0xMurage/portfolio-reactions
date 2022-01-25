@@ -3,13 +3,13 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     [
-      "@semantic-release@changelog",
+      "@semantic-release/changelog",
       {
         "changelogFile": "changelog.md"
       }
     ],
     [
-      "@semantic-release@git",
+      "@semantic-release/git",
       {
         "assets": [
           "changelog.md"
