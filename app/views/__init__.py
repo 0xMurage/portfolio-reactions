@@ -49,7 +49,7 @@ def save_reaction(project):
 
     device_id = request.form.get('device_id') or request.json.get('device_id')
 
-    exists = Reaction.first(deleted_at=None, device_id=device_id)
+    exists = Reaction.first(deleted_at=None, device_id=device_id, project_id=project)
     if exists is not None:
         return {'error': 'Reaction already exists'}, 422
 
