@@ -52,7 +52,7 @@ def save_reaction(project):
 
     exists = Reaction.first(deleted_at=None, device_id=device_id, project_id=project)
     if exists is not None:
-        return {'error': 'Reaction already exists'}, 422
+        return {'error': 'Sorry but that is not possible at the moment'}, 422
 
     reaction = Reaction()
     reaction.device_id = device_id
@@ -72,7 +72,7 @@ def destroy_reaction(project):
 
     reaction = Reaction.first(device_id=device_id, project_id=project, deleted_at=None)
     if reaction is None:
-        return {'error': 'Not found'}, 404
+        return {'error': 'Record not found'}, 404
 
     reaction.deleted_at = func.now()
     reaction.update()
