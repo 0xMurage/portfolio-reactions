@@ -1,12 +1,10 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import declarative_base, sessionmaker
 from config.database import db_url
 
 Base = declarative_base()
 engine = create_engine(db_url())
 Session = sessionmaker(bind=engine)
-
-from datetime import datetime
 
 
 class Model(Base):
@@ -18,16 +16,18 @@ class Model(Base):
 
     def update(self):
         mapped_values = {}
-        pks = [pk.name for pk in self.__mapper__.primary_key]
+        pks = [col.name for col in inspect(type(self)).primary_key]
+
         filter_by = {}
 
-        obj = self.__dict__
+        table_cols = inspect(type(self)).columns.keys()
+        values = vars(self)
 
-        for field in obj.items():
-            if field[0] in pks:
-                filter_by[field[0]] = field[1]
-            elif field[0] in self.__mapper__.columns:
-                mapped_values[field[0]] = field[1]
+        for col in table_cols:
+            if col in pks:
+                filter_by[col] = values.get(col)
+            else:
+                mapped_values[col] = values.get(col)
 
         with Session.begin() as session:
             return session.query(type(self)) \
