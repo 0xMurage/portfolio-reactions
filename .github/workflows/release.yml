@@ -39,10 +39,14 @@ jobs:
         run: |
           domain="${{secrets.DOCKER_USERNAME}}"
           name="${{github.event.repository.name}}"
-          version="${{steps.srelease.outputs.last_release_version}}"
+          version="${{ steps.srelease.outputs.last_release_version }}"
           
-          if [ ${{steps.srelease.outputs.new_release_published}} = true ]; then
-            version="${{steps.srelease.outputs.new_release_version}}"
+          echo "${{ steps.srelease.outputs.last_release_version }}"
+          echo "${{ steps.srelease.outputs.new_release_published }}"
+          echo "${{ steps.srelease.outputs.last_release_version }}"
+          
+          if [ '${{ steps.srelease.outputs.new_release_published }}' = 'true' ]; then
+            version="${{ steps.srelease.outputs.new_release_version }}"
           fi
           
           TAG="${domain}/${name}:${version}"
