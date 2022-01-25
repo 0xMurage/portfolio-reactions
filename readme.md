@@ -55,7 +55,7 @@ Return all reactions and if I have reacted
 **POST** `/api/reactions/{project_id}`
 increment reactions and return current reactions
 
-Request
+Request body
 
 ```json
 {
@@ -77,8 +77,16 @@ Response
 }
 ```
 
-**DELETE** `/api/reactions/{device_id}`
+**DELETE** `/api/reactions/{project_id}`
 decrement reactions and return current reactions
+
+Request body
+
+```json
+{
+  "device_id": 100000
+}
+```
 
 Response
 

@@ -60,14 +60,19 @@ def save_reaction(project):
     return {'reactions': reactions(device_id)}
 
 
-@api.delete('/reactions/<device>')
-def destroy_reaction(device):
+@api.delete('/reactions/<project>')
+def destroy_reaction(project):
     """Soft delete reaction
     """
-    reaction = Reaction.first(device_id=device, deleted_at=None)
+    if request.form.get('device_id') is None and request.json.get('device_id') is None:
+        return {'error': 'Device identifier missing'}, 400
+
+    device_id = request.form.get('device_id') or request.json.get('device_id')
+
+    reaction = Reaction.first(device_id=device_id, project_id=project, deleted_at=None)
     if reaction is None:
         return {'error': 'Not found'}, 404
 
     reaction.deleted_at = func.now()
     reaction.update()
-    return {'reactions': reactions(request.form.get('device_id'))}
+    return {'reactions': reactions(device_id)}
