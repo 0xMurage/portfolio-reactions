@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/mimidotsuser/portfolio-reactions/compare/v1.0.0...v1.0.1) (2022-01-25)
+
+
+### Bug Fixes
+
+* wk ([1fdcb61](https://github.com/mimidotsuser/portfolio-reactions/commit/1fdcb61d8faa7d36c35c65dccd72abc6a1bf866e))
+
 # 1.0.0 (2022-01-25)
 
 
