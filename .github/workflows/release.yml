@@ -52,6 +52,9 @@ jobs:
           push: true
           tags: ${{steps.docker_tag.outputs.tag}}
 
+      - name: Create ansible temp env config directory
+        run: sudo mkdir -p /home/ansible-temp
+
       - name: Deploy the image using ansible
         uses: dawidd6/action-ansible-playbook@v2
         with:
@@ -68,5 +71,5 @@ jobs:
             -e  "image_tag=${{steps.docker_tag.outputs.tag}}"
             -e  "remote_path=${{secrets.REMOTE_WORKSPACE}}"
             -e  "local_path=${{github.workspace}}"
-            -e  "remote_files_owner_user=${{secrets.REMOTE_FILES_OWNER}}"
-            -e  "remote_files_owner_group=${{secrets.REMOTE_FILES_GROUP}}"
+            -e  "remote_files_owner_user=${{secrets.REMOTE_FILES_OWNER_USER}}"
+            -e  "remote_files_owner_group=${{secrets.REMOTE_FILES_OWNER_GROUP}}"
