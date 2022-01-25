@@ -1,5 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from sqlalchemy import func
+
 from app.models import Session
 from app.models.reaction import Reaction
 
