@@ -3,6 +3,7 @@ services:
   app:
     image: "${image?err}"
     restart: on-failure
+    command: sh -c "alembic upgrade head && gunicorn"
     ports:
       - "${FLASK_PORT?err}"
     env_file:
