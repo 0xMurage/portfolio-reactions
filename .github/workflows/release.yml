@@ -39,25 +39,20 @@ jobs:
         run: |
           domain="${{secrets.DOCKER_USERNAME}}"
           name="${{github.event.repository.name}}"
-          version="${{ steps.srelease.outputs.last_release_version }}"
-          
-          echo "${{ steps.srelease.outputs.last_release_version }}"
-          echo "${{ steps.srelease.outputs.new_release_published }}"
-          echo "${{ steps.srelease.outputs.last_release_version }}"
-          echo "${{ steps.srelease.outputs }}"
-          
+          version="$( /usr/bin/git describe --tags `/usr/bin/git rev-list --tags --max-count=1`|tr --delete v)"
+
           if [ '${{ steps.srelease.outputs.new_release_published }}' = 'true' ]; then
             version="${{ steps.srelease.outputs.new_release_version }}"
           fi
           
           TAG="${domain}/${name}:${version}"
           echo ::set-output name=tag::${TAG}
-          echo "${TAG}"
+          echo "::add-mask::${TAG}"
 
 
       - name: Build and push docker image
         id: docker_build
-        if: ${{ steps.srelease.outputs.new_release_published }} == true #only if we have a new release
+        if: steps.srelease.outputs.new_release_published == 'true' #only if we have a new release
         uses: docker/build-push-action@v2
         with:
           push: true
