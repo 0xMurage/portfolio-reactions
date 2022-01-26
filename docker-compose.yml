@@ -5,6 +5,8 @@ services:
     restart: on-failure
     ports:
       - "${FLASK_PORT?err}"
+    env_file:
+      - .env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
