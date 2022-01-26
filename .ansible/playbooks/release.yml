@@ -56,7 +56,7 @@
     - name: "Stop docker services if already running "
       when: project_current.stat.exists
       ansible.builtin.shell:
-        cmd: docker-compose down
+        cmd: image={{image_tag}} docker-compose down
       args:
         chdir: "{{remote_path}}/current"
 
@@ -72,7 +72,7 @@
     # Start docker services on current folder
     - name: "Start project docker services"
       ansible.builtin.shell:
-        cmd: image={{image_tag}} && docker-compose -f docker-compose.yml up -d
+        cmd: image={{image_tag}} docker-compose -f docker-compose.yml up -d
       args:
         chdir: "{{remote_path}}/current"
 
