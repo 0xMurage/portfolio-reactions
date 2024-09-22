@@ -13,7 +13,7 @@ def db_url():
         return ("%s:///%s" % (os.getenv("DB_CONNECTION"),
                               os.path.join(current_app.instance_path, os.getenv('DB_DATABASE'))))
     else:
-        return ("%s+%s://%s:%s@%s:%s/%s" % (os.getenv("DB_CONNECTION"),
+        return ("%s+%s://%s:%s@%s:%s/%s?collation=utf8mb4_general_ci" % (os.getenv("DB_CONNECTION"),
                                             os.getenv('DB_DRIVER'),
                                             os.getenv('DB_USERNAME'),
                                             quote_plus(os.getenv('DB_PASSWORD')),

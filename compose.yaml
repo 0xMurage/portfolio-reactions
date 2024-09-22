@@ -1,7 +1,6 @@
-version: "3.8"
 services:
   app:
-    image: "${image?err}"
+    image: "${APP_IMAGE?err}"
     restart: on-failure
     command: sh -c "alembic upgrade head && gunicorn"
     ports:

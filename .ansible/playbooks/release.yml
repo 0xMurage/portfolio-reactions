@@ -24,8 +24,8 @@
     #upload the docker compose file
     - name: "Upload docker compose file"
       ansible.builtin.lineinfile:
-        line: "{{lookup('file',local_path+'/docker-compose.yml')}}"
-        path: "{{project_remote.path}}/docker-compose.yml"
+        line: "{{lookup('file',local_path+'/compose.yaml')}}"
+        path: "{{project_remote.path}}/compose.yaml"
         state: present
         create: yes
         mode: 0644
@@ -72,7 +72,7 @@
     # Start docker services on current folder
     - name: "Start project docker services"
       ansible.builtin.shell:
-        cmd: image={{image_tag}} docker-compose -f docker-compose.yml up -d
+        cmd: APP_IMAGE={{image_tag}} docker-compose -f compose.yaml up -d
       args:
         chdir: "{{remote_path}}/current"
 
