@@ -1,6 +1,7 @@
 __pycache__
 .env
 .env-example
+.env-enc
 venv
 
 *.pyc
@@ -14,3 +15,15 @@ venv
 .git
 .pytest_cache
 readme.md
+
+.ansible
+.idea
+.vscode
+
+.dockerignore
+Dockerfile
+compose.override.yaml
+compose.yaml
+.releaserc.json
+.gitignore
+changelog.md

@@ -1,0 +1,32 @@
+services:
+  app:
+    image: !reset null
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ${PWD}:/app
+    depends_on:
+      main_db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=true
+
+  main_db:
+    image: docker.io/mariadb:lts-noble
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
+      MARIADB_PASSWORD: ${DB_PASSWORD?}
+      MARIADB_USER: ${DB_USERNAME?}
+      MARIADB_DATABASE: ${DB_DATABASE?}
+    networks:
+      - portfolio
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
