@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/0xMurage/portfolio-reactions/compare/v1.0.1...v1.0.2) (2024-09-22)
+
+
+### Bug Fixes
+
+* Unable to run on Mac M2 chip ([#3](https://github.com/0xMurage/portfolio-reactions/issues/3)) ([799250c](https://github.com/0xMurage/portfolio-reactions/commit/799250c23d9640afaed468ae2b50c9695c63caa9))
+
 ## [1.0.1](https://github.com/mimidotsuser/portfolio-reactions/compare/v1.0.0...v1.0.1) (2022-01-25)
 
 
