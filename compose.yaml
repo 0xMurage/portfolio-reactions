@@ -15,6 +15,3 @@ services:
 networks:
   portfolio:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.32/29
