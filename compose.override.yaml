@@ -6,6 +6,8 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ${PWD}:/app
+    ports:
+      - 8000:${FLASK_PORT?}
     depends_on:
       main_db:
         condition: service_healthy
