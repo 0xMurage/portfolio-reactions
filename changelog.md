@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/0xMurage/portfolio-reactions/compare/v1.0.2...v1.0.3) (2024-10-14)
+
+
+### Bug Fixes
+
+* expose app on port 8000 during development ([f1f18fd](https://github.com/0xMurage/portfolio-reactions/commit/f1f18fd7fdb8aa5deb98c88e73db80cd678fdcf9))
+* removed fixed ip address subnet ([8b90f82](https://github.com/0xMurage/portfolio-reactions/commit/8b90f829cce362895582e2cc02e045a2fc498d9c))
+
 ## [1.0.2](https://github.com/0xMurage/portfolio-reactions/compare/v1.0.1...v1.0.2) (2024-09-22)
 
 
